@@ -82,7 +82,7 @@ def main():
     cvFpsCalc = CvFpsCalc()
     
     # Initialize variables
-    font_path = './utils/font/衡山毛筆フォント.ttf'
+    font_path = './utils/font/real.ttf'
     sign_display_queue = deque(maxlen=18)
     sign_history_queue = deque(maxlen=44)
     effect_images_queue = deque()
