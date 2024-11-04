@@ -50,12 +50,12 @@ To set up this project locally, follow these steps:
     Download the pre-trained YOLOX model weights from [YOLOX GitHub](https://github.com/Megvii-BaseDetection/YOLOX) and place them in the `model/yolox` directory.
 
 ---
-
+![image](https://github.com/user-attachments/assets/16366a5d-17a7-4564-9ec0-03a16e7d7755)
 ## Usage
 To run the real-time hand sign detection demo:
 
 ```bash
 python Ninjutsu_demo.py
 
-![image](https://github.com/user-attachments/assets/16366a5d-17a7-4564-9ec0-03a16e7d7755)
+
 
