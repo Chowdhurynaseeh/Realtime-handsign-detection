@@ -67,7 +67,7 @@ def get_args():
 
 
 def main():
-    # 引数解析 #################################################################
+    # Argument parsing #################################################################
     args = get_args()
     # cap_device = args.device
     # cap_width = args.width
@@ -87,12 +87,12 @@ def main():
 
     frame_count = 0
 
-    # カメラ準備 ###############################################################
+    # Prepare camera ###############################################################
     # cap = cv.VideoCapture(cap_device)
     # cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
     # cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
 
-    # モデルロード #############################################################
+    # Load model #############################################################
     yolox = YoloxONNX(
         model_path=model_path,
         input_shape=input_shape,
@@ -103,7 +103,7 @@ def main():
         # providers=['CPUExecutionProvider'],
     )
 
-    # ラベル読み込み ###########################################################
+    # Load labels ###########################################################
     with open('setting/labels.csv', encoding='utf8') as f:
         labels = csv.reader(f)
         labels = [row for row in labels]
@@ -123,16 +123,16 @@ def main():
             debug_image = copy.deepcopy(frame)
             height, width = (480, 640)
 
-            # 検出実施 #############################################################
+            # Perform detection #############################################################
             bboxes, scores, class_ids = yolox.inference(frame)
 
-            # miss
+            # Miss detection
             miss = (len(class_ids) != 1)
 
             for bbox, score, class_id in zip(bboxes, scores, class_ids):
                 class_id = int(class_id) + 1
                 
-                # 検出結果可視化 ###################################################
+                # Visualize detection results ###################################################
                 x1, y1 = int(bbox[0]), int(bbox[1])
                 x2, y2 = int(bbox[2]), int(bbox[3])
                 
@@ -148,12 +148,12 @@ def main():
             if miss:
                 cv.imwrite(f'miss/{filename}', debug_image)
 
-            # キー処理(ESC：終了) #################################################
+            # Key processing (ESC: exit) #################################################
             key = cv.waitKey(1)
             if key == 27:  # ESC
                 break
 
-            # FPS調整 #############################################################
+            # FPS adjustment #############################################################
             elapsed_time = time.time() - start_time
             sleep_time = max(0, ((1.0 / fps) - elapsed_time))
             time.sleep(sleep_time)
@@ -163,7 +163,7 @@ def main():
                 "Elapsed Time:" + '{:.1f}'.format(elapsed_time * 1000) + "ms",
                 (10, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv.LINE_AA)
 
-            # 画面反映 #############################################################
+            # Display the image #############################################################
             cv.imshow('NARUTO HandSignDetection Simple Demo', debug_image)
 
         # cap.release()
